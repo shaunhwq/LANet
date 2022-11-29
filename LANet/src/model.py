@@ -7,6 +7,8 @@ from glob import glob
 
 from module import *
 from utils import *
+from tqdm import tqdm
+
 
 eps = 1e-5
 BUFFER_SIZE = 64
@@ -101,11 +103,11 @@ class relativeHDR(object):
         else:
             print(" [!] Load failed...")
 
-        for sample_file in sample_files:
+        for sample_file in tqdm(sample_files, total=len(sample_files), desc="Running LANet..."):
             if '9C4A' in sample_file or 'AG8A' in sample_file:
                 continue
 
-            print('Processing image: ' + sample_file)
+            #print('Processing image: ' + sample_file)
             sample_image = [load_test_data(sample_file, self.args.test_height, self.args.test_width)]
             sample_image = np.array(sample_image).astype(np.float32)
             fake_imgs = self.sess.run([self.msk_att, self.mask, self.test_H], feed_dict={self.test_L: sample_image})
@@ -116,9 +118,9 @@ class relativeHDR(object):
 
             msk_att_path = os.path.join(self.args.out_dir, 'Msk_att_{0}_out.jpg'.format(os.path.basename(sample_file)))
             mask_path = os.path.join(self.args.out_dir, 'Msk_{0}_out.jpg'.format(os.path.basename(sample_file)))
-            image_path = os.path.join(self.args.out_dir, '{0}_out.exr'.format(os.path.basename(sample_file).split('.')[0]))
-            save_images(msk_att, [1, 1], msk_att_path)
-            save_images(mask, [1, 1], mask_path)
+            image_path = os.path.join(self.args.out_dir, '{0}.hdr'.format(os.path.basename(sample_file).split('.')[0]))
+            #save_images(msk_att, [1, 1], msk_att_path)
+            #save_images(mask, [1, 1], mask_path)
             save_images(fake_imgs[2], [1, 1], image_path)
 
 

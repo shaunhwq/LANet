@@ -7,6 +7,28 @@ This is the author's reference implementation of the single-image HDR reconstruc
 
 The network architecture details are shown in "model.py" and the data processing is in "utils.py".
 
+## Testing (on external image, for cuda 10.0
+
+Installation
+```
+conda create -n LANet python=3.7
+conda install -c conda-forge cudatoolkit=10.0 cudnn=7.3.1
+pip install --upgrade pip
+pip3 install tensorflow-gpu==1.13.1 TensorLayer==1.11.0 opencv-python
+
+# Downgrade protobuf (tensorflow issue)
+pip3 install protobuf==3.20.*
+```
+
+Now, you need to download the checkpoints. Refer to the link below. Store then in ./LANet
+
+Running
+```
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/
+export CUDA_VISIBLE_DEVICES=3
+cd LANet
+python ./src/main.py --phase test --gpu 0 --checkpoint_dir ./checkpoint_LANet/ --test_dir path_to_input_dir --out_dir path_to_output_dir
+```
 
 ## Prerequisites
 
