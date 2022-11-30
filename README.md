@@ -12,6 +12,7 @@ The network architecture details are shown in "model.py" and the data processing
 Installation
 ```
 conda create -n LANet python=3.7
+conda activate LANet
 conda install -c conda-forge cudatoolkit=10.0 cudnn=7.3.1
 pip install --upgrade pip
 pip3 install tensorflow-gpu==1.13.1 TensorLayer==1.11.0 opencv-python
